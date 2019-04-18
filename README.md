@@ -6,7 +6,7 @@ It is an application made in Spring Boot as Backend, Vue.JS as Frontend and MySQ
 
 Create a MySQL Database named "demo":
 ```console
-$mysql: create database demo;
+$ mysql: create database demo;
 ```
 
 Navigate to the api folder and start the Spring Boot API by Maven through the command:
