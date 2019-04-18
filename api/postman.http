@@ -1,0 +1,35 @@
+POST http://localhost:9000/api/sorteios HTTP/1.1
+Content-Type: application/json
+
+{
+    "resultados" : [
+        {
+            "valor": "1111",
+            "animal": "Fantin"
+        },
+        {
+            "valor": "2222",
+            "animal": "Croba"
+        },
+        {
+            "valor": "3333",
+            "animal": "Cabra"
+        },
+        {
+            "valor": "4444",
+            "animal": "Tonhao"
+        },
+        {
+            "valor": "5555",
+            "animal": "Mosquito"
+        },
+        {
+            "valor": "6666",
+            "animal": "Spinha"
+        }
+    ],  
+    "soma" : "99999",
+    "loteria" : "2",
+    "horario" : "2",
+    "data" : "2019-04-17"
+}
