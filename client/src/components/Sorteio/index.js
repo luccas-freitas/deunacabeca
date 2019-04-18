@@ -1,0 +1,1 @@
+export {default} from './Sorteio.vue'
