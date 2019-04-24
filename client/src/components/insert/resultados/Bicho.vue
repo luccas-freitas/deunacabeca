@@ -90,10 +90,10 @@ export default {
         parseInt(this.sorteio.resultados[3].valor) +
         parseInt(this.sorteio.resultados[4].valor);
 
-      if(this.sorteio.soma < 99)
+      if (this.sorteio.soma < 99)
         this.sorteio.soma = "00".concat(this.sorteio.soma);
-      else if(this.sorteio.soma <= 999)
-        this.sorteio.soma = "0".concat(this.sorteio.soma);   
+      else if (this.sorteio.soma <= 999)
+        this.sorteio.soma = "0".concat(this.sorteio.soma);
     }
   }
 };
