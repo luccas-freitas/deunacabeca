@@ -15,7 +15,7 @@
 	<description>Deu na Cabeça! - Resultados do Jogo do Bicho</description>
 
 	<properties>
-		<java.version>12</java.version>
+		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>
