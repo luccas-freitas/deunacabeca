@@ -21,10 +21,10 @@
 
 <script>
 import http from "../../http-common";
-import Loteria from "./Loteria.vue";
-import Horario from "./Horario.vue";
-import dataLancamento from "./Data.vue";
-import Resultados from "./resultados/Resultados.vue";
+import Loteria from "./components/Loteria.vue";
+import Horario from "./components/Horario.vue";
+import dataLancamento from "./components/Data.vue";
+import Resultados from "./components/resultados/Resultados.vue";
 
 export default {
   name: "novo",

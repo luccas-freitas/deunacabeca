@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import http from "../http-common";
+import http from "../../http-common";
 import DatePicker from "vue2-datepicker";
 import moment from "moment";
 

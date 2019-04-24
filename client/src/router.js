@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import SorteioList from "./components/SorteioList.vue";
 import NovoSorteio from "./components/insert/NovoSorteio.vue";
-import BuscarSorteio from "./components/BuscarSorteio.vue";
+import BuscarSorteio from "./components/search/BuscarSorteio.vue";
 import Sorteio from "./components/Sorteio.vue";
 
 Vue.use(Router);
