@@ -20,7 +20,7 @@
         </div>
 
         <div class="form-group">
-          <label>Horario:</label>
+          <label>Horário:</label>
           <select v-if="sorteio.loteria < 2"
             class="form-control"
             v-model="sorteio.horario"
@@ -46,7 +46,8 @@
             :lang="lang" 
             :input-attr="{ 
               required: true 
-            }">
+            }"
+            :width="300">
           </date-picker>
         </div>
 
@@ -97,7 +98,7 @@ export default {
     return {
       sorteio: {
         id: 0,
-        soma: "",
+        soma: 0,
         loteria: "",
         horario: "",
         data: "",
