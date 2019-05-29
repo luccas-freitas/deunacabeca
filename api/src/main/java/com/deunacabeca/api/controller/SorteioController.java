@@ -1,12 +1,9 @@
 package com.deunacabeca.api.controller;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import com.deunacabeca.api.controller.exception.DataNotFoundException;
 import com.deunacabeca.api.controller.exception.SorteioNotFoundException;
@@ -14,7 +11,6 @@ import com.deunacabeca.api.model.Sorteio;
 import com.deunacabeca.api.repository.SorteioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
