@@ -13,18 +13,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.deunacabeca.api.util.HorarioEnum;
+import com.deunacabeca.api.util.LoteriaEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Sorteio {
+public class Sorteio extends AuditLog {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;

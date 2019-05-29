@@ -1,16 +1,17 @@
 package com.deunacabeca.api.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 import com.deunacabeca.api.controller.exception.DataNotFoundException;
 import com.deunacabeca.api.controller.exception.SorteioNotFoundException;
 import com.deunacabeca.api.model.Sorteio;
-import com.deunacabeca.api.repository.SorteioRepository;
+import com.deunacabeca.api.model.filter.SorteioFilter;
 
+import com.deunacabeca.api.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,71 +25,62 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
 @RestController
+@EnableAutoConfiguration
 @RequestMapping("/api")
 @AllArgsConstructor
 @CrossOrigin
 public class SorteioController {
     @Autowired
-    private final SorteioRepository repository;
+    private final SorteioService service;
 
     @GetMapping(value = "/sorteios")
-    public List<Sorteio> all() {
-        return repository.findAll();
+    public ResponseEntity all(SorteioFilter filter) {
+        Page<Sorteio> page = service.all(filter);
+
+        return page.isEmpty() ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(page);
     }
 
     @GetMapping(value = "/sorteios/{id}")
-    Sorteio one(@PathVariable Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new SorteioNotFoundException(id));
+    public ResponseEntity one(@PathVariable Long id) {
+        Optional<Sorteio> optional = service.one(id);
+
+        return !optional.isPresent() ?
+                ResponseEntity.status(500).body(new SorteioNotFoundException(id)) :
+                ResponseEntity.ok(optional);
     }
 
     @GetMapping(value = "sorteios/data/{data}")
-    public List<Sorteio> findByData(@PathVariable String data) throws DataNotFoundException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateParsed = null;
-        try {
-            dateParsed = dateFormat.parse(data);
-        } catch(ParseException e) {
-            throw new DataNotFoundException(data);
-        }
-        
-        return repository.findByData(dateParsed);
+    public ResponseEntity findByData(@PathVariable String data, SorteioFilter filter) throws DataNotFoundException {
+        Page<Sorteio> page = service.findByData(filter, data);
+
+        return page.isEmpty() ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(page);
     }
 
     @PostMapping(value = "/sorteios")
-    public Sorteio newSorteio(@RequestBody Sorteio sorteio) {
-        return repository.save(new Sorteio(
-                sorteio.getId(), 
-                sorteio.getResultados(),
-                sorteio.getSoma(), 
-                sorteio.getLoteria(), 
-                sorteio.getHorario(),
-                sorteio.getData())
-            );
+    public ResponseEntity newSorteio(@RequestBody Sorteio sorteio) {
+        Sorteio newSorteio = service.newSorteio(sorteio);
+
+        return ResponseEntity.ok(newSorteio);
     }
 
     @PutMapping(value = "/sorteios/{id}")
-    public Sorteio replaceSorteio(@PathVariable Long id, @RequestBody Sorteio newSorteio) {
-        return repository.findById(id).map(
-            sorteio -> {
-                sorteio.setResultados(newSorteio.getResultados());
-                sorteio.setSoma(newSorteio.getSoma());
-                sorteio.setLoteria(newSorteio.getLoteria());
-                sorteio.setHorario(newSorteio.getHorario());
-                sorteio.setData(newSorteio.getData());
+    public ResponseEntity replaceSorteio(@PathVariable Long id, @RequestBody Sorteio newSorteio) {
+        Optional<Sorteio> sorteio = service.replaceSorteio(id, newSorteio);
 
-                return repository.save(sorteio);
-            }
-        )
-        .orElseGet(() ->{
-            newSorteio.setId(id);
-            return repository.save(newSorteio);
-        });
+        return !sorteio.isPresent() ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(sorteio);
     }
     
     @DeleteMapping(value = "/sorteios/{id}")
-    void deleteSorteio(@PathVariable Long id) {
-        repository.deleteById(id);
+    public ResponseEntity deleteSorteio(@PathVariable Long id) {
+        service.deleteSorteio(id);
+
+        return ResponseEntity.ok().build();
     }
 
 }
