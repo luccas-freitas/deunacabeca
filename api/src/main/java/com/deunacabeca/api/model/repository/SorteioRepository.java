@@ -6,8 +6,8 @@ import com.deunacabeca.api.model.Sorteio;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface SorteioRepository extends JpaRepository<Sorteio, Long> {
+public interface SorteioRepository extends PagingAndSortingRepository<Sorteio, Long> {
     Page<Sorteio> findByData(Date data, Pageable pageable);
 }

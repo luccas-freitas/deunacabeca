@@ -2,7 +2,7 @@ package com.deunacabeca.api.controller;
 
 import java.util.Optional;
 
-import com.deunacabeca.api.controller.exception.DataNotFoundException;
+import com.deunacabeca.api.controller.exception.DataInvalidFormatException;
 import com.deunacabeca.api.controller.exception.SorteioNotFoundException;
 import com.deunacabeca.api.model.Sorteio;
 import com.deunacabeca.api.model.filter.SorteioFilter;
@@ -52,7 +52,7 @@ public class SorteioController {
     }
 
     @GetMapping(value = "sorteios/data/{data}")
-    public ResponseEntity findByData(@PathVariable String data, SorteioFilter filter) throws DataNotFoundException {
+    public ResponseEntity findByData(@PathVariable String data, SorteioFilter filter) throws DataInvalidFormatException {
         Page<Sorteio> page = service.findByData(filter, data);
 
         return page.isEmpty() ?

@@ -8,13 +8,10 @@ spring:
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
+    open-in-view: true
   thymeleaf:
     check-template-location: false
 
 # Spring Boot Server properties
-server:  
+server:
   port: 9000
-
-# Logging Level
-logging:
-  level: error

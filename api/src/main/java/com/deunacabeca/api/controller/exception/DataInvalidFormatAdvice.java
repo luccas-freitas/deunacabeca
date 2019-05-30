@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class SorteioNotFoundAdvice {
+public class DataInvalidFormatAdvice {
 	@ResponseBody
-	@ExceptionHandler(SorteioNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	Map<String, String> sorteioNotFoundHandler (SorteioNotFoundException ex) {
+	@ExceptionHandler(DataInvalidFormatException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	Map<String, String> DataInvalidFormatHandler (DataInvalidFormatException ex) {
 		Map<String, String> response = new HashMap<>();
 		response.put("message", ex.getMessage());
+
 		return response;
 	}
 }

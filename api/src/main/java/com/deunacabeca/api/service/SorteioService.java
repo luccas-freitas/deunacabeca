@@ -1,5 +1,6 @@
 package com.deunacabeca.api.service;
 
+import com.deunacabeca.api.controller.exception.DataInvalidFormatException;
 import com.deunacabeca.api.controller.exception.DataNotFoundException;
 import com.deunacabeca.api.controller.exception.SorteioNotFoundException;
 import com.deunacabeca.api.model.Sorteio;
@@ -39,18 +40,22 @@ public class SorteioService {
         return repository.findById(id);
     }
 
-    public Page<Sorteio> findByData(SorteioFilter filter, String data) throws DataNotFoundException {
+    public Page<Sorteio> findByData(SorteioFilter filter, String data) throws DataInvalidFormatException {
         Pageable pageable = PageRequest.of(filter.getPage(), filter.getQuantity(), Sort.by("createdAt").ascending());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date dateParsed;
 
         try {
             dateParsed = dateFormat.parse(data);
         } catch(ParseException e) {
-            throw new DataNotFoundException(data);
+            throw new DataInvalidFormatException(data);
         }
 
-        return repository.findByData(dateParsed, pageable);
+        Page<Sorteio> page = repository.findByData(dateParsed, pageable);
+        if(page.isEmpty())
+            throw new DataNotFoundException(data);
+
+        return page;
     }
 
     public Sorteio newSorteio(Sorteio sorteio) {
