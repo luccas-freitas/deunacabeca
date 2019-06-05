@@ -21,7 +21,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Sorteio extends AuditLog {
-    @Id 
+    private static final long serialVersionUID = -5025467096328370280L;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
@@ -29,6 +31,8 @@ public class Sorteio extends AuditLog {
     private List<Resultado> resultados;
 
     private String soma;
+
+    private String concurso;
 
     @Convert(converter = LoteriaEnum.Mapper.class)
     private LoteriaEnum loteria;

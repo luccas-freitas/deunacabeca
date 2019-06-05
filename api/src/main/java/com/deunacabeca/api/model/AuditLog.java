@@ -14,6 +14,8 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = "createdAt", allowGetters = true)
 public abstract class AuditLog implements Serializable {
+    private static final long serialVersionUID = 9060319419137045336L;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DH_REF_LOG", nullable = false, updatable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
