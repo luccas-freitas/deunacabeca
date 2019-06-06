@@ -38,6 +38,7 @@ export default {
         loteria: "",
         horario: "",
         data: "",
+        concurso: "",
         resultados: []
       },
       submitted: false
@@ -50,6 +51,7 @@ export default {
         loteria: this.sorteio.loteria,
         horario: this.sorteio.horario,
         data: this.sorteio.data,
+        concurso: this.sorteio.concurso,
         resultados: this.sorteio.resultados.map(({ valor, animal }) => ({
           valor,
           animal

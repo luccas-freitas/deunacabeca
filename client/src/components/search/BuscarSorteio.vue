@@ -34,7 +34,7 @@
     </ul>
     </div>
     
-    <div v-else-if="this.size == 0">
+    <div v-else-if="this.find = true && this.size == 0">
       <p>{{ message }}</p>
     </div>
     <div v-else>
@@ -66,17 +66,17 @@ export default {
   methods: {
     /* eslint-disable no-console */
     busca() {
-      var dataParsed = moment(this.currentDate).format('YYYY-MM-DD');   
+      var dataParsed = moment(this.currentDate).format('DD-MM-YYYY');   
       http
         .get("/sorteios/data/" + dataParsed)
         .then(response => {
           this.sorteios = response.data;
           this.size = response.data.length;
-          this.message = 'Não há resultados lançados para esta data.';
+          this.message = 'Insira uma data válida.';
           this.find = true;
         },
         () => {
-          this.message = 'Insira uma data válida.';
+          this.message = 'Não há resultados lançados para esta data.';
           this.find = false;
         })
         ;
