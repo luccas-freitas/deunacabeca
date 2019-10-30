@@ -1,16 +1,19 @@
 package com.deunacabeca.api.service;
 
-import com.deunacabeca.api.controller.exception.InvalidFormatException;
+import com.deunacabeca.api.command.ResultadoCommand;
+import com.deunacabeca.api.command.SorteioCommand;
 import com.deunacabeca.api.controller.exception.NotFoundException;
+import com.deunacabeca.api.model.Resultado;
 import com.deunacabeca.api.model.Sorteio;
 import com.deunacabeca.api.model.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,58 +26,51 @@ public class SorteioService {
         this.repository = repository;
     }
 
-    public List<Sorteio> all() {
-        return repository.findAll();
+    public Page<Sorteio> all(SorteioCommand command) {
+        Pageable pageable = PageRequest.of(command.getPage(), command.getSize(), Sort.by("data").ascending());
+        return repository.findAll(pageable);
     }
 
-    public Optional<Sorteio> one(String id) {
-        Long _id = new Long(id);
-
-        _id = Long.parseLong(id);
-        if (!repository.findById(_id).isPresent())
+    public Optional<Sorteio> one(Long id) {
+        if (!repository.findById(id).isPresent())
             throw new NotFoundException("Sorteio " + id + " não encontrado.");
-
-        return repository.findById(_id);
+        return repository.findById(id);
     }
 
-    public List<Sorteio> findByData(String data) throws InvalidFormatException {
-        List<Sorteio> list = new ArrayList<>();
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date dateParsed = dateFormat.parse(data);
-            list = repository.findByData(dateParsed);
-            if (list.isEmpty())
-                throw new NotFoundException("Não há lançamentos para a data " + data);
+    public Page<Sorteio> findByData(SorteioCommand command) {
+        Pageable pageable = PageRequest.of(command.getPage(), command.getSize(), Sort.by("data").ascending());
+        return repository.findByData(command.getData(), pageable);
+    }
 
-        } catch (ParseException e) {
-            throw new InvalidFormatException("Formato de data " + data + " inválido.");
+    public Sorteio create(SorteioCommand sorteioCommand, List<ResultadoCommand> resultadosCommand) {
+        Sorteio sorteio = new Sorteio();
+        sorteio.setLoteria(sorteioCommand.getLoteria());
+        sorteio.setHorario(sorteioCommand.getHorario());
+        sorteio.setData(sorteioCommand.getData());
+
+        List<Resultado> resultados = new ArrayList<>();
+        for (ResultadoCommand command : resultadosCommand) {
+            resultados.add(new Resultado(command.getValor(), command.getAnimal()));
         }
+        sorteio.setResultados(resultados);
+        sorteio.setSoma(this.getSoma());
 
-        return list;
+        return repository.save(sorteio);
     }
 
-    public Sorteio newSorteio(Sorteio sorteio) {
-        return repository.save(new Sorteio(sorteio.getId(), sorteio.getResultados(), sorteio.getSoma(),
-                sorteio.getConcurso(), sorteio.getLoteria(), sorteio.getHorario(), sorteio.getData()));
+    private String getSoma() {
+        //TODO
+        return null;
     }
 
-    public Optional<Sorteio> replaceSorteio(Long id, Sorteio newSorteio) {
+    public Optional<Sorteio> update(Long id, SorteioCommand sorteioCommand, List<ResultadoCommand> resultadosCommand) {
         if (!repository.findById(id).isPresent())
             throw new NotFoundException("Sorteio " + id + " não encontrado.");
 
-        return repository.findById(id).map(sorteio -> {
-            sorteio.setResultados(newSorteio.getResultados());
-            sorteio.setSoma(newSorteio.getSoma());
-            sorteio.setConcurso(newSorteio.getConcurso());
-            sorteio.setLoteria(newSorteio.getLoteria());
-            sorteio.setHorario(newSorteio.getHorario());
-            sorteio.setData(newSorteio.getData());
-
-            return repository.save(sorteio);
-        });
+        return repository.findById(id).map(sorteio -> create(sorteioCommand, resultadosCommand));
     }
 
-    public void deleteSorteio(Long id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }

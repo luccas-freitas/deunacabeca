@@ -1,9 +1,7 @@
 package com.deunacabeca.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -15,12 +13,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name = "RESULT")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Resultado {
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "O ID deve ser informado.")
     private Long id;
-    
+
+    @Column(name = "RESULT_VL")
+    @NotNull(message = "O Valor deve ser informado.")
     private String valor;
+
+    @Column(name = "RESULT_ANM")
     private String animal;
+
+    public Resultado(@NotNull(message = "O Valor deve ser informado.") String valor, String animal) {
+        this.valor = valor;
+        this.animal = animal;
+    }
 }

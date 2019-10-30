@@ -1,8 +1,9 @@
 package com.deunacabeca.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,23 +13,22 @@ import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = "createdAt", allowGetters = true)
-public abstract class AuditLog implements Serializable {
+@Data
+abstract class AuditLog implements Serializable {
     private static final long serialVersionUID = 9060319419137045336L;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DH_REF_LOG", nullable = false, updatable = false)
+    @Column(name = "CREATED_DT", nullable = false, updatable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
-    @CreatedDate
+    @CreationTimestamp
     private Date createdAt;
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATED_DT")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
+    @UpdateTimestamp
+    private Date updatedAt;
 }
 
