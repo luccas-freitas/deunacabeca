@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SorteioCommand extends AbstractCommand {
-    private LoteriaEnum loteria;
-    private HorarioEnum horario;
     private Date data;
+    private HorarioEnum horario;
+    private LoteriaEnum loteria;
+    private List<ResultadoCommand> resultados;
 }

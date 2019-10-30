@@ -42,15 +42,15 @@ public class SorteioService {
         return repository.findByData(command.getData(), pageable);
     }
 
-    public Sorteio create(SorteioCommand sorteioCommand, List<ResultadoCommand> resultadosCommand) {
+    public Sorteio create(SorteioCommand command) {
         Sorteio sorteio = new Sorteio();
-        sorteio.setLoteria(sorteioCommand.getLoteria());
-        sorteio.setHorario(sorteioCommand.getHorario());
-        sorteio.setData(sorteioCommand.getData());
+        sorteio.setLoteria(command.getLoteria());
+        sorteio.setHorario(command.getHorario());
+        sorteio.setData(command.getData());
 
         List<Resultado> resultados = new ArrayList<>();
-        for (ResultadoCommand command : resultadosCommand) {
-            resultados.add(new Resultado(command.getValor(), command.getAnimal()));
+        for (ResultadoCommand resultado : command.getResultados()) {
+            resultados.add(new Resultado(resultado.getValor(), resultado.getAnimal()));
         }
         sorteio.setResultados(resultados);
         sorteio.setSoma(this.getSoma());
@@ -63,11 +63,11 @@ public class SorteioService {
         return null;
     }
 
-    public Optional<Sorteio> update(Long id, SorteioCommand sorteioCommand, List<ResultadoCommand> resultadosCommand) {
+    public Optional<Sorteio> update(Long id, SorteioCommand command) {
         if (!repository.findById(id).isPresent())
             throw new NotFoundException("Sorteio " + id + " não encontrado.");
 
-        return repository.findById(id).map(sorteio -> create(sorteioCommand, resultadosCommand));
+        return repository.findById(id).map(sorteio -> create(command));
     }
 
     public void delete(Long id) {

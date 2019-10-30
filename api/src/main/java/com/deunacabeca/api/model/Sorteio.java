@@ -49,7 +49,7 @@ public class Sorteio extends AuditLog {
     private List<Resultado> resultados;
 
     @Column(name = "SRT_SM")
-    @NotNull(message = "O Resultado final deve ser informado.")
+    //@NotNull(message = "O Resultado final deve ser informado.")
     private String soma;
 
 }

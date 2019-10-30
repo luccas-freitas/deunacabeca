@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class Resultado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "O ID deve ser informado.")
     private Long id;
 
     @Column(name = "RESULT_VL")
