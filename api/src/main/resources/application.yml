@@ -6,13 +6,17 @@ spring:
         path: /h2
   datasource:
     url: jdbc:h2:file:~/test
-    username: sa
-    password:
+    username: luke
+    password: :night_w4lk3r$
     driverClassName: org.h2.Driver
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
     open-in-view: true
+  security:
+    user:
+      name: luccas
+      password: 061294
 
 # Spring Boot Server properties
 server:

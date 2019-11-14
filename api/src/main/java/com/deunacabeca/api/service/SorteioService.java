@@ -31,10 +31,10 @@ public class SorteioService {
         return repository.findAll(pageable);
     }
 
-    public Optional<Sorteio> one(Long id) {
+    public Sorteio one(Long id) {
         if (!repository.findById(id).isPresent())
             throw new NotFoundException("Sorteio " + id + " não encontrado.");
-        return repository.findById(id);
+        return repository.findById(id).get();
     }
 
     public Page<Sorteio> findByData(SorteioCommand command) {
@@ -63,11 +63,11 @@ public class SorteioService {
         return null;
     }
 
-    public Optional<Sorteio> update(Long id, SorteioCommand command) {
+    public Sorteio update(Long id, SorteioCommand command) {
         if (!repository.findById(id).isPresent())
             throw new NotFoundException("Sorteio " + id + " não encontrado.");
 
-        return repository.findById(id).map(sorteio -> create(command));
+        return repository.findById(id).map(sorteio -> create(command)).get();
     }
 
     public void delete(Long id) {
