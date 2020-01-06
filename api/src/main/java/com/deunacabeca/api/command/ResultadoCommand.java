@@ -3,9 +3,9 @@ package com.deunacabeca.api.command;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @Data
-public class ResultadoCommand extends AbstractCommand {
+public class ResultadoCommand {
     private String valor;
     private String animal;
 }

@@ -1,20 +1,19 @@
 package com.deunacabeca.api.util;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
 import com.fasterxml.jackson.annotation.JsonValue;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 @AllArgsConstructor
 public enum LoteriaEnum {
     PTRIO("PT-RIO"),
     PR("PR"),
-    FEDERAL("Federal"),
-    MEGASENA("Mega-Sena"),
-    QUINABR("Quina-BR");
+    FEDERAL("FEDERAL"),
+    MEGASENA("MEGA SENA"),
+    QUINABR("QUINA BR");
 
     @Getter
     String loteria;
@@ -37,9 +36,9 @@ public enum LoteriaEnum {
             if(loteria == null)             return null;
             if("PT-RIO".equals(loteria))    return PTRIO;
             if("PR".equals(loteria))        return PR;
-            if("Federal".equals(loteria))   return FEDERAL;
-            if("Mega-Sena".equals(loteria)) return MEGASENA;
-            if("Quina-BR".equals(loteria))  return QUINABR;
+            if("FEDERAL".equals(loteria))   return FEDERAL;
+            if("MEGA SENA".equals(loteria)) return MEGASENA;
+            if("QUINA BR".equals(loteria))  return QUINABR;
 
             throw new IllegalStateException("Loteria inválida:" + loteria);
         }

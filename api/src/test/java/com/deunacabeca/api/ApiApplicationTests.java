@@ -43,30 +43,8 @@ class ApiApplicationTests {
 	}
 
 	@Test
-	void editarSorteio() {
-		SorteioCommand command = new SorteioCommand();
-		ResultadoCommand resultado = new ResultadoCommand();
-		List<ResultadoCommand> resultados = new ArrayList<>();
-
-		command.setData(Date.from(Instant.now()));
-		command.setHorario(HorarioEnum.DEZENOVE);
-		command.setLoteria(LoteriaEnum.MEGASENA);
-
-		for (int i = 0; i < 6; i++) {
-			resultado.setAnimal(i + "ANIMAL");
-			resultado.setValor(Integer.toString(i + 100));
-
-			resultados.add(resultado);
-		}
-		command.setResultados(resultados);
-
-		Long id = Integer.toUnsignedLong(1);
-		Assert.notNull(service.update(id, command), "Sorteio não encontrado");
-	}
-
-	@Test
 	void removerSorteio() {
-		Long id = Integer.toUnsignedLong(1);
+		Long id = 1L;
 		try {
 			service.delete(id);
 		} catch (NotFoundException e) {
@@ -78,14 +56,13 @@ class ApiApplicationTests {
 
 	@Test
 	void listarTodos() {
-		SorteioCommand command = new SorteioCommand();
-		assert !service.all(command).hasContent() || true;
+		assert !service.all().isEmpty() || true;
 	}
 
 	@Test
 	void listarPorData() {
 		SorteioCommand command = new SorteioCommand();
-		assert !service.findByData(command).hasContent() || true;
+		assert !service.findByData(command).isEmpty() || true;
 	}
 
 	@Test

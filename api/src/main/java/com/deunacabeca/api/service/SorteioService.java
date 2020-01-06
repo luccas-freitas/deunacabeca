@@ -2,15 +2,10 @@ package com.deunacabeca.api.service;
 
 import com.deunacabeca.api.command.ResultadoCommand;
 import com.deunacabeca.api.command.SorteioCommand;
-import com.deunacabeca.api.controller.exception.NotFoundException;
 import com.deunacabeca.api.model.Resultado;
 import com.deunacabeca.api.model.Sorteio;
 import com.deunacabeca.api.model.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,36 +21,20 @@ public class SorteioService {
         this.repository = repository;
     }
 
-    public Page<Sorteio> all(SorteioCommand command) {
-        Pageable pageable = PageRequest.of(command.getPage(), command.getSize(), Sort.by("data").ascending());
-        return repository.findAll(pageable);
+    public List<Sorteio> all() {
+        return repository.findAll();
     }
 
-    public Sorteio one(Long id) {
-        if (!repository.findById(id).isPresent())
-            throw new NotFoundException("Sorteio " + id + " não encontrado.");
-        return repository.findById(id).get();
+    public Optional<Sorteio> one(Long id) {
+        return repository.findById(id);
     }
 
-    public Page<Sorteio> findByData(SorteioCommand command) {
-        Pageable pageable = PageRequest.of(command.getPage(), command.getSize(), Sort.by("data").ascending());
-        return repository.findByData(command.getData(), pageable);
+    public List<Sorteio> findByData(SorteioCommand command) {
+        return repository.findByDataOrderByDataAsc(command.getData());
     }
 
     public Sorteio create(SorteioCommand command) {
-        Sorteio sorteio = new Sorteio();
-        sorteio.setLoteria(command.getLoteria());
-        sorteio.setHorario(command.getHorario());
-        sorteio.setData(command.getData());
-
-        List<Resultado> resultados = new ArrayList<>();
-        for (ResultadoCommand resultado : command.getResultados()) {
-            resultados.add(new Resultado(resultado.getValor(), resultado.getAnimal()));
-        }
-        sorteio.setResultados(resultados);
-        sorteio.setSoma(this.getSoma());
-
-        return repository.save(sorteio);
+        return repository.save(populate(command));
     }
 
     private String getSoma() {
@@ -63,14 +42,25 @@ public class SorteioService {
         return null;
     }
 
-    public Sorteio update(Long id, SorteioCommand command) {
-        if (!repository.findById(id).isPresent())
-            throw new NotFoundException("Sorteio " + id + " não encontrado.");
-
-        return repository.findById(id).map(sorteio -> create(command)).get();
-    }
-
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    private Sorteio populate(SorteioCommand command) {
+        Sorteio sorteio = new Sorteio();
+        sorteio.setData(command.getData());
+        sorteio.setHorario(command.getHorario());
+        sorteio.setLoteria(command.getLoteria());
+
+        List<Resultado> resultados = new ArrayList<>();
+        for(ResultadoCommand res : command.getResultados()) {
+            Resultado resultado = new Resultado();
+            resultado.setValor(res.getValor());
+            resultado.setAnimal(res.getAnimal());
+            resultados.add(resultado);
+        }
+        sorteio.setResultados(resultados);
+
+        return sorteio;
     }
 }

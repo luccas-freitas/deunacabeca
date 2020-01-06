@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import com.deunacabeca.api.util.HorarioEnum;
 import com.deunacabeca.api.util.LoteriaEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -41,6 +42,7 @@ public class Sorteio extends AuditLog {
     private HorarioEnum horario;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="dd/MM/yyyy")
     @Column(name = "SRT_DATA")
     @NotNull(message = "A Data deve ser informada.")
     private Date data;

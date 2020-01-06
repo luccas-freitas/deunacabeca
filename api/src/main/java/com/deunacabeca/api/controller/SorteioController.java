@@ -21,12 +21,14 @@ public class SorteioController {
 
     @GetMapping(value = "/sorteios")
     public ResponseEntity<?> all() {
-        return ResponseEntity.ok(service.all(new SorteioCommand()));
+        return ResponseEntity.ok(service.all());
     }
 
     @GetMapping(value = "/sorteios/{id}")
     public ResponseEntity<?> one(@PathVariable Long id) {
-        return ResponseEntity.ok(service.one(id));
+        return service.one(id)
+                .map(record -> ResponseEntity.ok().body(record))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "sorteios/data/{data}")
@@ -49,7 +51,10 @@ public class SorteioController {
 
     @PutMapping(value = "/sorteios/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SorteioCommand command) {
-        return ResponseEntity.ok(service.update(id, command));
+        return service.one(id)
+                .map(record -> ResponseEntity.ok().body(
+                        service.create(command))
+                ).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(value = "/sorteios/{id}")
