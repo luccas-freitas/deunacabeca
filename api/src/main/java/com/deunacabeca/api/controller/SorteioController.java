@@ -52,7 +52,7 @@ public class SorteioController {
     @PutMapping(value = "/sorteios/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SorteioCommand command) {
         return service.one(id)
-                .map(record -> ResponseEntity.ok().body(service.create(command)))
+                .map(record -> ResponseEntity.ok().body(service.update(id, command)))
                 .orElse(ResponseEntity.notFound().build());
     }
 

@@ -37,6 +37,12 @@ public class SorteioService {
         return repository.save(populate(command));
     }
 
+    public Sorteio update(Long id, SorteioCommand command) {
+        Sorteio sorteio = populate(command);
+        sorteio.setId(id);
+        return repository.save(sorteio);
+    }
+
     public void delete(Long id) {
         repository.deleteById(id);
     }

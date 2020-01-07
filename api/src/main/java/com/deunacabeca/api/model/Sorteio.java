@@ -46,7 +46,7 @@ public class Sorteio extends AuditLog {
     @NotNull(message = "A Data deve ser informada.")
     private Date data;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resultado> resultados;
 
     @Column(name = "SRT_SM")

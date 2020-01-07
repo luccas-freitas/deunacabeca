@@ -21,14 +21,14 @@ public class Advice {
 		return response;
 	}
 
-/*	@ResponseBody
+	@ResponseBody
 	@ExceptionHandler(NumberFormatException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	Map<String, String> numberFormatHandler (NumberFormatException ex) {
 		Map<String, String> response = new HashMap<>();
 		response.put("message", ex.getMessage());
 		return response;
-	}*/
+	}
 
 	@ResponseBody
 	@ExceptionHandler(NotFoundException.class)
