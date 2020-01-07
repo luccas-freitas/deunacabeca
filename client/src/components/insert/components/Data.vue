@@ -3,18 +3,20 @@
     <label>Data:</label>
     <br>
     <date-picker
-      v-model="sorteio.data"
-      :lang="lang"
-      :input-attr="{ 
+            v-model="sorteio.data"
+            :lang="lang"
+            :input-attr="{
               required: true 
             }"
-      :width="300"
-    ></date-picker>
+            :width="300"
+            :format="momentFormat"
+    />
   </div>
 </template>
 
 <script>
 import DatePicker from "vue2-datepicker";
+import moment from "moment"
 
 export default {
   name: "dataLancamento",
@@ -22,6 +24,15 @@ export default {
   components: { DatePicker },
   data() {
     return {
+      momentFormat: {
+        stringify: (date) => {
+          moment.locale("pt-br");
+          return date ? moment(date).format('LL') : ''
+        },
+        parse: (value) => {
+          return value ? moment(value, 'L').toDate() : null
+        }
+      },
       lang: "pt-br"
     };
   }
