@@ -27,10 +27,7 @@ export default {
       momentFormat: {
         stringify: (date) => {
           moment.locale("pt-br");
-          return date ? moment(date).format('LL') : ''
-        },
-        parse: (value) => {
-          return value ? moment(value, 'L').toDate() : null
+          return date ? moment(date).format('L') : ''
         }
       },
       lang: "pt-br"

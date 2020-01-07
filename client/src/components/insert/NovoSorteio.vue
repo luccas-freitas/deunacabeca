@@ -25,6 +25,7 @@ import Loteria from "./components/Loteria.vue";
 import Horario from "./components/Horario.vue";
 import dataLancamento from "./components/Data.vue";
 import Resultados from "./components/resultados/Resultados.vue";
+import moment from "moment";
 
 export default {
   name: "novo",
@@ -50,7 +51,7 @@ export default {
       var data = {
         loteria: this.sorteio.loteria,
         horario: this.sorteio.horario,
-        data: this.sorteio.data,
+        data: moment(this.sorteio.data).format('L'),
         concurso: this.sorteio.concurso,
         resultados: this.sorteio.resultados.map(({ valor, animal }) => ({
           valor,
