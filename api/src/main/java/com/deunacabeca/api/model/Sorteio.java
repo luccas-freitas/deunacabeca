@@ -1,20 +1,19 @@
 package com.deunacabeca.api.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
+import com.deunacabeca.api.command.SorteioCommand;
 import com.deunacabeca.api.util.HorarioEnum;
 import com.deunacabeca.api.util.LoteriaEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -28,7 +27,7 @@ public class Sorteio extends AuditLog {
 
     @Id
     @Column(name = "SRT_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Convert(converter = LoteriaEnum.Mapper.class)
@@ -51,7 +50,31 @@ public class Sorteio extends AuditLog {
     private List<Resultado> resultados;
 
     @Column(name = "SRT_SM")
-    //@NotNull(message = "O Resultado final deve ser informado.")
     private String soma;
 
+    public Sorteio(SorteioCommand command, List<Resultado> resultados) {
+        this.setData(command.getData());
+        this.setHorario(command.getHorario());
+        this.setLoteria(command.getLoteria());
+        this.setResultados(resultados);
+        this.setSoma(resultados);
+    }
+
+    private void setSoma(List<Resultado> resultados) {
+        if(resultados.size() >= 5) {
+            int soma = 0;
+            for (int i = 0; i < 5; i++) {
+                soma += Integer.parseInt(resultados.get(i).getValor());
+            }
+            if(soma <= 99) {
+                this.soma = "00" + soma;
+            } else if(soma <= 999) {
+                this.soma = "0" + soma;
+            } else {
+                this.soma = Integer.toString(soma);
+            }
+        } else {
+            this.soma = "";
+        }
+    }
 }

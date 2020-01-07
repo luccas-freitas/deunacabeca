@@ -37,30 +37,17 @@ public class SorteioService {
         return repository.save(populate(command));
     }
 
-    private String getSoma() {
-        //TODO
-        return null;
-    }
-
     public void delete(Long id) {
         repository.deleteById(id);
     }
 
     private Sorteio populate(SorteioCommand command) {
-        Sorteio sorteio = new Sorteio();
-        sorteio.setData(command.getData());
-        sorteio.setHorario(command.getHorario());
-        sorteio.setLoteria(command.getLoteria());
-
         List<Resultado> resultados = new ArrayList<>();
         for(ResultadoCommand res : command.getResultados()) {
-            Resultado resultado = new Resultado();
-            resultado.setValor(res.getValor());
-            resultado.setAnimal(res.getAnimal());
+            Resultado resultado = new Resultado(res);
             resultados.add(resultado);
         }
-        sorteio.setResultados(resultados);
 
-        return sorteio;
+        return new Sorteio(command, resultados);
     }
 }

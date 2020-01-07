@@ -7,5 +7,4 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ResultadoCommand {
     private String valor;
-    private String animal;
 }

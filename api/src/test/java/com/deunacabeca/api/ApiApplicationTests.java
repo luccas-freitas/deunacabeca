@@ -32,9 +32,7 @@ class ApiApplicationTests {
 		command.setLoteria(LoteriaEnum.FEDERAL);
 
 		for (int i = 0; i < 6; i ++) {
-			resultado.setAnimal("ANIMAL" + i);
 			resultado.setValor(Integer.toString(i));
-
 			resultados.add(resultado);
 		}
 		command.setResultados(resultados);
