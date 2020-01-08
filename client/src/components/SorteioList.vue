@@ -14,7 +14,7 @@
             </ul>
         </div>
         <div class="col-md-6">
-            <router-view @refreshData="refreshList"></router-view>
+            <router-view @refreshData="refreshList"/>
         </div>
     </div>
 </template>

@@ -5,7 +5,7 @@
       <div v-for="(item, index) in sorteio.resultados" :key="index">
         <label v-if="index+1 < 6">{{ index+1 }}º Prêmio:</label>
         <label v-else>7º Prêmio:</label>
-        <Bicho :id="index" :sorteio="sorteio"></Bicho>
+        <Bicho :id="index" :sorteio="sorteio"/>
       </div>
 
       <div class="form-group">
@@ -18,18 +18,18 @@
     <div v-else class="form-group">
       <label>Resultados:</label>
       <div v-for="(item, index) in sorteio.resultados" :key="index">
-        <Loto :id="index" :sorteio="sorteio"></Loto>
+        <Loto :id="index" :sorteio="sorteio"/>
       </div>
       <div class="form-group">
         <label>Concurso:</label>
         <PatternInput
-          class="form-control"
-          :regExp="setting.regExp"
-          :replacement="setting.replacement"
-          v-model="sorteio.concurso"
-          :maxlength="4"
-          required
-        ></PatternInput>
+                class="form-control"
+                :regExp="setting.regExp"
+                :replacement="setting.replacement"
+                v-model="sorteio.concurso"
+                :maxlength="4"
+                required
+        />
       </div>
       <br>
     </div>

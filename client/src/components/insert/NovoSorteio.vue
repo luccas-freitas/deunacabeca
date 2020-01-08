@@ -1,14 +1,13 @@
 <template>
-  <form @submit.prevent="saveSorteio">
+  <b-form @submit.prevent="saveSorteio">
     <div class="submitform">
       <div v-if="!submitted">
-        <br>
-        <loteria :sorteio="sorteio"></loteria>
-        <horario :sorteio="sorteio"></horario>
-        <dataLancamento :sorteio="sorteio"></dataLancamento>
-        <resultados :sorteio="sorteio"></resultados>
+        <loteria :sorteio="sorteio"/>
+        <horario :sorteio="sorteio"/>
+        <dataLancamento :sorteio="sorteio"/>
+        <resultados :sorteio="sorteio"/>
 
-        <input class="btn btn-success" type="submit" value="Inserir">
+        <b-button type="submit" variant="primary">Inserir</b-button>
       </div>
 
       <div v-else>
@@ -16,7 +15,7 @@
         <button class="btn btn-success" v-on:click="novoSorteio">Novo</button>
       </div>
     </div>
-  </form>
+  </b-form>
 </template>
 
 <script>
@@ -80,10 +79,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.submitform {
-  max-width: 300px;
-  margin: auto;
-}
-</style>

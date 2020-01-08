@@ -77,7 +77,7 @@ export default {
         this.sorteio.resultados[id].animal = "Urso";
       if (res % 100 >= 93 && res % 100 <= 96)
         this.sorteio.resultados[id].animal = "Veado";
-      if (res % 100 >= 97 || res % 100 == 0)
+      if (res % 100 >= 97 || res % 100 === 0)
         this.sorteio.resultados[id].animal = "Vaca";
 
       this.getSoma();
