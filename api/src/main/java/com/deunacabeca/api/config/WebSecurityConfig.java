@@ -14,10 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable().httpBasic()
+                .and()
+            .authorizeRequests()
                 .antMatchers("/", "home").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/**").authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
